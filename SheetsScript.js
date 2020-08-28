@@ -29,7 +29,7 @@ function GENDOTDAT(RANGE)
   return dotCounts.map(x => [Number.parseFloat(x[0], 10), Number.parseFloat(x[1], 10)]);
 }
 
-function GENSTEM(RANGE, DECIMAL, LEAFM = 1, FLR = false)
+function GENSTEM(RANGE, DECIMAL, LEAFM = 1, RND = false)
 {
   var sheet = SpreadsheetApp.getActiveSpreadsheet();
   var range = sheet.getRange(RANGE);
@@ -44,7 +44,7 @@ function GENSTEM(RANGE, DECIMAL, LEAFM = 1, FLR = false)
     var x = Number.parseFloat(rangeValues[i]);
     var bin = Math.floor(x / precision);
     var stem = (x % precision) * LEAFM;
-    if (FLR) stem = Math.floor(stem);
+    if (FLR) stem = Math.round(stem);
     if (!bins.hasOwnProperty(bin)) bins[bin] = [];
     bins[bin].push(stem);
   }
@@ -72,3 +72,4 @@ function GENSTEM(RANGE, DECIMAL, LEAFM = 1, FLR = false)
   }
   
   return table;
+}
