@@ -28,3 +28,35 @@ function GENDOTDAT(RANGE)
 
   return dotCounts.map(x => [Number.parseFloat(x[0], 10), Number.parseFloat(x[1], 10)]);
 }
+
+function GENSTEM(RANGE, DECIMAL, LEAFM = 1, FLR = false)
+{
+  var sheet = SpreadsheetApp.getActiveSpreadsheet();
+  var range = sheet.getRange(RANGE);
+  var rangeValues = range.getValues().flat();
+  
+  var bins = {};
+  
+  var precision = Math.pow(10, DECIMAL);
+  
+  for (var i = 0; i < rangeValues.length; i++)
+  {
+    var x = Number.parseFloat(rangeValues[i]);
+    var bin = Math.floor(x / precision);
+    var stem = (x % precision) * LEAFM;
+    if (FLR) stem = Math.floor(stem);
+    if (!bins.hasOwnProperty(bin)) bins[bin] = [];
+    bins[bin].push(stem);
+  }
+  
+  //Bin2Str
+  var table = [];
+  var binEntries = Object.entries(bins);
+  
+  for (var i = 0; i < binEntries.length; i++)
+  {
+    table.push([binEntries[i][0], binEntries[i][1].sort().join(' ')])
+  }
+  
+  return table;
+}
