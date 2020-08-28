@@ -44,7 +44,7 @@ function GENSTEM(RANGE, DECIMAL, LEAFM = 1, RND = false)
     var x = Number.parseFloat(rangeValues[i]);
     var bin = Math.floor(x / precision);
     var stem = (x % precision) * LEAFM;
-    if (FLR) stem = Math.round(stem);
+    if (RND) stem = Math.round(stem);
     if (!bins.hasOwnProperty(bin)) bins[bin] = [];
     bins[bin].push(stem);
   }
