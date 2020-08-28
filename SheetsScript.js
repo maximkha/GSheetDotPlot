@@ -53,10 +53,22 @@ function GENSTEM(RANGE, DECIMAL, LEAFM = 1, FLR = false)
   var table = [];
   var binEntries = Object.entries(bins);
   
+  var stems = binEntries.map((x) => x[0]);
+  var minStem = Math.min(...stems);
+  var maxStem = Math.max(...stems);
+  var stemRange = maxStem - minStem;
+  
+  for (var i = 1; i < stemRange; i++)
+  {
+    var bin = i + minStem;
+    if (!bins.hasOwnProperty(bin)) binEntries.push([bin, []]);
+  }
+  
+  binEntries.sort((a, b) => (a[0] > b[0]) ? 1 : -1);
+  
   for (var i = 0; i < binEntries.length; i++)
   {
-    table.push([binEntries[i][0], binEntries[i][1].sort().join(' ')])
+    table.push([binEntries[i][0], binEntries[i][1].sort().join(' ')]);
   }
   
   return table;
-}
